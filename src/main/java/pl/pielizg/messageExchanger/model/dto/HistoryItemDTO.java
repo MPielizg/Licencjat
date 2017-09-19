@@ -1,5 +1,7 @@
 package pl.pielizg.messageExchanger.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 /**
@@ -12,6 +14,7 @@ public class HistoryItemDTO {
 
     private String destination;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
     private String message;
@@ -57,5 +60,13 @@ public class HistoryItemDTO {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

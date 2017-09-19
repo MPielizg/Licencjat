@@ -10,6 +10,7 @@ import pl.pielizg.messageExchanger.service.ExchangeService;
 /**
  * Created by Pielizg on 2017-08-21.
  */
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping(value = "/getmessage")
 public class ExchangeController {
