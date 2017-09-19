@@ -3,14 +3,8 @@ package pl.pielizg.messageExchanger.map;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-import pl.pielizg.messageExchanger.model.dao.Group;
-import pl.pielizg.messageExchanger.model.dao.GroupCustom;
-import pl.pielizg.messageExchanger.model.dao.Subject;
-import pl.pielizg.messageExchanger.model.dao.User;
-import pl.pielizg.messageExchanger.model.dto.GroupCustomDTO;
-import pl.pielizg.messageExchanger.model.dto.GroupDTO;
-import pl.pielizg.messageExchanger.model.dto.SubjectDTO;
-import pl.pielizg.messageExchanger.model.dto.UserDTO;
+import pl.pielizg.messageExchanger.model.dao.*;
+import pl.pielizg.messageExchanger.model.dto.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +81,10 @@ public class Mapper {
         return new GroupCustomDTO(groupCustom.getName(), groupCustom.getLogin(), subjectDTO, groupCustom.getCreatedBy(), groupDTOs, userDTOs);
     }
 
+    HistoryItemDTO map(HistoryItem historyItem){
+        return new HistoryItemDTO(historyItem.getId(), historyItem.getOrigin(), historyItem.getDestination(), historyItem.getDate(), historyItem.getMessage());
+    }
+
     public GroupCustom map(GroupCustomDTO groupCustomDTO){
         GroupCustom groupCustom = new GroupCustom(groupCustomDTO.getName(), groupCustomDTO.getLogin(), groupCustomDTO.getCreatedBy());
         return groupCustom;
@@ -102,6 +100,15 @@ public class Mapper {
             @Override
             public UserDTO convert(User user) {
                 return map(user);
+            }
+        });
+    }
+
+    public Page<HistoryItemDTO> mapHistoryItemPage(Page<HistoryItem> page){
+        return page.map(new Converter<HistoryItem, HistoryItemDTO>() {
+            @Override
+            public HistoryItemDTO convert(HistoryItem historyItem) {
+                return map(historyItem);
             }
         });
     }
