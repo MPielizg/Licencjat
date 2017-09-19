@@ -22,7 +22,7 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Override
     public Page<HistoryItemDTO> getHistory(String login, Pageable pageable) {
-        Page<HistoryItem> historyItems = repository.findAll(pageable);
+        Page<HistoryItem> historyItems = repository.findByDestinationOrOrigin(login, login, pageable);
 
         return mapper.mapHistoryItemPage(historyItems);
     }

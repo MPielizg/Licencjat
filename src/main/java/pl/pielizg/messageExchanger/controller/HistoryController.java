@@ -27,6 +27,6 @@ public class HistoryController {
                                  @PageableDefault(size = 10, sort = "date") Pageable pageable) {
         Page<HistoryItemDTO> historyItemDTOs = service.getHistory(login, pageable);
 
-        return historyItemDTOs.getSize() == 0 ? new ResponseEntity<Page<HistoryItemDTO>>(historyItemDTOs, HttpStatus.OK) : new ResponseEntity<Object>(null, HttpStatus.BAD_REQUEST);
+        return historyItemDTOs.getTotalElements() != 0 ? new ResponseEntity<Page<HistoryItemDTO>>(historyItemDTOs, HttpStatus.OK) : new ResponseEntity<Object>(null, HttpStatus.BAD_REQUEST);
     }
 }

@@ -9,5 +9,5 @@ import pl.pielizg.messageExchanger.model.dao.HistoryItem;
  * Created by Pielizg on 2017-09-19.
  */
 public interface HistoryRepository extends PagingAndSortingRepository<HistoryItem, Integer> {
-   // Page<HistoryItem> findByDestination(String destination, Pageable pageable);
+    Page<HistoryItem> findByDestinationOrOrigin(String destination, String origin,  Pageable pageable);
 }

@@ -11,7 +11,7 @@ import java.util.Date;
  * Created by Pielizg on 2017-09-19.
  */
 @Entity
-@Table(name = "history-items")
+@Table(name = "history_items")
 public class HistoryItem {
     @Id
     @GeneratedValue
