@@ -17,6 +17,7 @@ import pl.pielizg.messageExchanger.model.dto.UserDTO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Pielizg on 2017-09-14.
@@ -65,7 +66,7 @@ public class GroupCustomServiceImpl implements GroupCustomService {
     }
 
     @Override
-    public List<GroupCustomDTO> findCustomGroupsBySubjectName(String name) {
+    public List<GroupCustomDTO> findCustomGroups(String login, String name) {
         Subject subject = subjectRepository.findByName(name);
         List<GroupCustomDTO> groupCustomDTOs = new ArrayList<>();
 
@@ -73,6 +74,9 @@ public class GroupCustomServiceImpl implements GroupCustomService {
             groupCustomDTOs.add(mapper.map(g));
         }
 
-        return groupCustomDTOs;
+        return groupCustomDTOs
+                .stream()
+                .filter(g -> g.getCreatedBy().equals(login))
+                .collect(Collectors.toList());
     }
 }

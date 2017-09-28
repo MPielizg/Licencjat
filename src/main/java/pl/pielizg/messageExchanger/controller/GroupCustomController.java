@@ -25,9 +25,11 @@ public class GroupCustomController {
         service.insertGroupCustom(groupCustomDTO);
     }
 
-    @GetMapping(value = "/{name}")
-    ResponseEntity<?> getCustomGroupsBySubjectName(@PathVariable("name") String name){
-        List<GroupCustomDTO> groupCustomDTOs = service.findCustomGroupsBySubjectName(name);
+    @GetMapping(value = "")
+    ResponseEntity<?> getCustomGroups(
+            @RequestParam(value = "login") String login,
+            @RequestParam(value = "name") String name){
+        List<GroupCustomDTO> groupCustomDTOs = service.findCustomGroups(login, name);
 
         return groupCustomDTOs.size() != 0 ? new ResponseEntity<List<GroupCustomDTO>>(groupCustomDTOs, HttpStatus.OK) : new ResponseEntity<Object>(null, HttpStatus.BAD_REQUEST);
     }

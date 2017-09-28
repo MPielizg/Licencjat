@@ -10,5 +10,5 @@ import java.util.List;
 public interface GroupCustomService {
     void insertGroupCustom(GroupCustomDTO groupCustomDTO);
 
-    List<GroupCustomDTO> findCustomGroupsBySubjectName(String name);
+    List<GroupCustomDTO> findCustomGroups(String name, String login);
 }

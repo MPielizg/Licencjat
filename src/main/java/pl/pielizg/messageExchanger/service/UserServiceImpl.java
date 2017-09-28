@@ -51,6 +51,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserDTO findByPhoneNumber(Long phoneNumber) {
+        User user = repository.findByPhoneNumber(phoneNumber);
+
+        return user != null ? mapper.map(user) : null;
+    }
+
+
+    @Override
     @Transactional
     public void deleteUser(Long phoneNumber) {
         repository.deleteByPhoneNumber(phoneNumber);

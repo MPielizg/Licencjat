@@ -26,10 +26,11 @@ public class HistoryItem {
 
     private String message;
 
-    public HistoryItem(String origin, String destination, String message) {
+    public HistoryItem(String origin, String destination, String message, Date date) {
         this.origin = origin;
         this.destination = destination;
         this.message = message;
+        this.date = date;
     }
 
     public HistoryItem() {

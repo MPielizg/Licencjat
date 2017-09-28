@@ -29,4 +29,11 @@ public class HistoryController {
 
         return historyItemDTOs.getTotalElements() != 0 ? new ResponseEntity<Page<HistoryItemDTO>>(historyItemDTOs, HttpStatus.OK) : new ResponseEntity<Object>(null, HttpStatus.BAD_REQUEST);
     }
+
+    @DeleteMapping(value = "/{id}")
+    ResponseEntity<?> deleteHistoryItem(@PathVariable("id") int id){
+        HistoryItemDTO historyItemDTO = service.deleteHistoryItem(id);
+
+        return historyItemDTO != null ? new ResponseEntity<HistoryItemDTO>(historyItemDTO, HttpStatus.OK) : new ResponseEntity<Object>(null, HttpStatus.BAD_REQUEST);
+    }
 }

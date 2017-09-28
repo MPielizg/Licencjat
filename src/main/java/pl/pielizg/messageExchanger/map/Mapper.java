@@ -81,7 +81,7 @@ public class Mapper {
         return new GroupCustomDTO(groupCustom.getName(), groupCustom.getLogin(), subjectDTO, groupCustom.getCreatedBy(), groupDTOs, userDTOs);
     }
 
-    HistoryItemDTO map(HistoryItem historyItem){
+     public HistoryItemDTO map(HistoryItem historyItem){
         return new HistoryItemDTO(historyItem.getId(), historyItem.getOrigin(), historyItem.getDestination(), historyItem.getDate(), historyItem.getMessage());
     }
 

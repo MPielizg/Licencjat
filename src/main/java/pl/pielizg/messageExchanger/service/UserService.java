@@ -16,6 +16,8 @@ public interface UserService {
 
     UserDTO findByLogin(String login);
 
+    UserDTO findByPhoneNumber(Long phoneNumber);
+
     void deleteUser(Long phoneNumber);
 
     String getPassword(String login);
