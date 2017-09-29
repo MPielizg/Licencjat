@@ -25,12 +25,15 @@ public class HistoryItem {
     private Date date;
 
     private String message;
+    @NotNull
+    private boolean wasSend;
 
-    public HistoryItem(String origin, String destination, String message, Date date) {
+    public HistoryItem(String origin, String destination, String message, Date date, boolean wasSend) {
         this.origin = origin;
         this.destination = destination;
         this.message = message;
         this.date = date;
+        this.wasSend = wasSend;
     }
 
     public HistoryItem() {
@@ -74,5 +77,13 @@ public class HistoryItem {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public boolean isWasSend() {
+        return wasSend;
+    }
+
+    public void setWasSend(boolean wasSend) {
+        this.wasSend = wasSend;
     }
 }

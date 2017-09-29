@@ -2,7 +2,9 @@ package pl.pielizg.messageExchanger.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.pielizg.messageExchanger.Repository.HistoryRepository;
 import pl.pielizg.messageExchanger.model.dao.Group;
+import pl.pielizg.messageExchanger.model.dao.HistoryItem;
 import pl.pielizg.messageExchanger.model.dao.User;
 import pl.pielizg.messageExchanger.model.dto.Container;
 import pl.pielizg.messageExchanger.model.dto.GroupDTO;
@@ -22,6 +24,8 @@ public class ExchangeServiceImpl implements ExchangeService {
     private GroupService groupService;
     @Autowired
     private HistoryService historyService;
+    @Autowired
+    private HistoryRepository repository;
 
 
     @Override
@@ -53,13 +57,13 @@ public class ExchangeServiceImpl implements ExchangeService {
                 } else {
                     phoneNumbers.add(userDTO.getPhoneNumber());
                 }
-                historyService.newHistoryItem(userDTOtemp.getLogin(), tab[1], tab[2]);
+                historyService.newHistoryItem(userDTOtemp.getLogin(), tab[1], tab[2], true);
                 return new Container(phoneNumbers, tab[2]);
             } else {                                                                    //z aplikacji
                 UserDTO originUser = userService.findByLogin(tab[0]);
                 UserDTO userDTO = userService.findByLogin(tab[1]);
 
-                if(userDTO == null){
+                if(userDTO == null && originUser == null){
                     GroupDTO groupDTO = groupService.findGroupByLogin(tab[1]);
                     if(groupDTO==null){
                         return new Container("Brak podanego loginu");
@@ -71,11 +75,41 @@ public class ExchangeServiceImpl implements ExchangeService {
                 } else {
                     phoneNumbers.add(userDTO.getPhoneNumber());
                 }
-                historyService.newHistoryItem(tab[0], tab[1], tab[2]);
+                historyService.newHistoryItem(tab[0], tab[1], tab[2], false);
                 
                 return new Container(phoneNumbers, tab[2]);
             }
 
         }
+    }
+
+    @Override
+    public List<Container> getUnsendMessages() {
+        List<HistoryItem> historyItems = repository.findByWasSend(false);
+        List<Container> containers = new ArrayList<>();
+        for(HistoryItem h: historyItems){
+            Container container = new Container();
+            container.setPhoneNumbers(new ArrayList<Long>());
+            UserDTO userDTO = userService.findByLogin(h.getDestination());
+            if(userDTO != null){
+                container.getPhoneNumbers().add(userDTO.getPhoneNumber());
+                container.setMessage(h.getMessage());
+                containers.add(container);
+                h.setWasSend(true);
+                repository.save(h);
+            } else {
+                GroupDTO groupDTO = groupService.findGroupByLogin(h.getDestination());
+                if(groupDTO != null){
+                    groupDTO.getUserDTOs().forEach(u -> {
+                        container.getPhoneNumbers().add(u.getPhoneNumber());
+                    });
+                    container.setMessage(h.getMessage());
+                    containers.add(container);
+                    h.setWasSend(true);
+                    repository.save(h);
+                }
+            }
+        }
+        return containers;
     }
 }

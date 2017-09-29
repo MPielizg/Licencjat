@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import pl.pielizg.messageExchanger.model.dto.Container;
 import pl.pielizg.messageExchanger.service.ExchangeService;
 
+import java.util.List;
+
 /**
  * Created by Pielizg on 2017-08-21.
  */
@@ -18,16 +20,17 @@ public class ExchangeController {
     @Autowired
     private ExchangeService service;
 
-    @Deprecated
-    @GetMapping(value = "/{message}")
-    void getString(@PathVariable("message") String message){
-        service.setMessage(message);
-    }
-
     @PostMapping(value = "/text")
     ResponseEntity<Container> getText(@RequestBody String text){
         Container container = service.setMessage(text);
 
         return container.getPhoneNumbers()!=null ? new ResponseEntity<Container>(container, HttpStatus.OK) : new ResponseEntity<Container>(container, HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping(value = "")
+    ResponseEntity<?> getUnsendMessages(){
+        List<Container> containers = service.getUnsendMessages();
+
+        return !containers.isEmpty() ? new ResponseEntity<List<Container>>(containers, HttpStatus.OK) : new ResponseEntity<Object>(null, HttpStatus.NO_CONTENT);
     }
 }

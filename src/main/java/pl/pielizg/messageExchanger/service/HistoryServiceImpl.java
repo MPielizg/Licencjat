@@ -29,9 +29,9 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
-    public HistoryItemDTO newHistoryItem(String originLogin, String destinationLogin, String text) {
+    public HistoryItemDTO newHistoryItem(String originLogin, String destinationLogin, String text, boolean wasSend) {
         Date now = new Date();
-        HistoryItem historyItem = new HistoryItem(originLogin, destinationLogin, text, now);
+        HistoryItem historyItem = new HistoryItem(originLogin, destinationLogin, text, now, wasSend);
 
         int id = repository.save(historyItem).getId();
         historyItem = repository.findOne(id);

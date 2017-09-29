@@ -11,7 +11,7 @@ import pl.pielizg.messageExchanger.model.dto.HistoryItemDTO;
 public interface HistoryService {
     Page<HistoryItemDTO> getHistory(String login, Pageable pageable);
 
-    HistoryItemDTO newHistoryItem(String originLogin, String destinationLogin,  String text);
+    HistoryItemDTO newHistoryItem(String originLogin, String destinationLogin,  String text, boolean wasSend);
 
     HistoryItemDTO deleteHistoryItem(int id);
 }
