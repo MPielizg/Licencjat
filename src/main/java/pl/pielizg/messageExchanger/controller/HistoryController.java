@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.pielizg.messageExchanger.model.dto.HistoryItemDTO;
+import pl.pielizg.messageExchanger.model.dto.IntervalDTO;
 import pl.pielizg.messageExchanger.service.HistoryService;
 import org.springframework.data.domain.Pageable;
 
@@ -22,8 +23,9 @@ public class HistoryController {
     @Autowired
     private HistoryService service;
 
-    @GetMapping(value = "/{login}")
+    @PostMapping(value = "/{login}")
     ResponseEntity<?> getHistory(@PathVariable("login") String login,
+                                 @RequestBody IntervalDTO intervalDTO,
                                  @PageableDefault(size = 10, sort = "date") Pageable pageable) {
         Page<HistoryItemDTO> historyItemDTOs = service.getHistory(login, pageable);
 
