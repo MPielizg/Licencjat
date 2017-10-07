@@ -11,6 +11,8 @@ import pl.pielizg.messageExchanger.model.dto.IntervalDTO;
 import pl.pielizg.messageExchanger.service.HistoryService;
 import org.springframework.data.domain.Pageable;
 
+import java.text.ParseException;
+
 
 /**
  * Created by Pielizg on 2017-09-19.
@@ -26,8 +28,8 @@ public class HistoryController {
     @PostMapping(value = "/{login}")
     ResponseEntity<?> getHistory(@PathVariable("login") String login,
                                  @RequestBody IntervalDTO intervalDTO,
-                                 @PageableDefault(size = 10, sort = "date") Pageable pageable) {
-        Page<HistoryItemDTO> historyItemDTOs = service.getHistory(login, pageable);
+                                 @PageableDefault(size = 10, sort = "date") Pageable pageable) throws ParseException {
+        Page<HistoryItemDTO> historyItemDTOs = service.getHistory(login, intervalDTO, pageable);
 
         return historyItemDTOs.getTotalElements() != 0 ? new ResponseEntity<Page<HistoryItemDTO>>(historyItemDTOs, HttpStatus.OK) : new ResponseEntity<Object>(null, HttpStatus.BAD_REQUEST);
     }

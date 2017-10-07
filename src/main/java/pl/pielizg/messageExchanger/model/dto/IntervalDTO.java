@@ -6,10 +6,10 @@ import java.util.Date;
  * Created by Pielizg on 2017-10-06.
  */
 public class IntervalDTO {
-    private Date startDate;
-    private Date endDate;
+    private String startDate;
+    private String endDate;
 
-    public IntervalDTO(Date startDate, Date endDate) {
+    public IntervalDTO(String startDate, String endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
     }
@@ -17,19 +17,19 @@ public class IntervalDTO {
     public IntervalDTO() {
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 }
