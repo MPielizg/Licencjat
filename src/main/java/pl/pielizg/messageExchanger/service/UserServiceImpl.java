@@ -10,6 +10,9 @@ import pl.pielizg.messageExchanger.map.Mapper;
 import pl.pielizg.messageExchanger.model.dao.User;
 import pl.pielizg.messageExchanger.model.dto.UserDTO;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Pielizg on 2017-08-18.
  */
@@ -70,6 +73,30 @@ public class UserServiceImpl implements UserService {
         User user =  repository.findByLogin(login);
 
         return user != null ? user.getPassword() : "###";
+    }
+
+    @Override
+    public List<UserDTO> findByCreatedBy(String login) {
+        List<User> users = repository.findByCreatedBy(login);
+        List<UserDTO> userDTOs = new ArrayList<>();
+
+        for(User u: users){
+            userDTOs.add(mapper.map(u));
+        }
+
+        return userDTOs;
+    }
+
+    @Override
+    public List<UserDTO> findByFraze(String fraze) {
+        List<User> users = repository.findByFraze(fraze);
+        List<UserDTO> userDTOs = new ArrayList<>();
+
+        for(User u: users){
+            userDTOs.add(mapper.map(u));
+        }
+
+        return userDTOs;
     }
 
 }

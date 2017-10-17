@@ -29,11 +29,18 @@ public class UserController {
         return page != null ? new ResponseEntity<Page<UserDTO>>(page, HttpStatus.OK) : new ResponseEntity<Object>(null, HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping(value = "/{id}")
-    ResponseEntity<?> findUserById(@PathVariable("id") int id){
-        UserDTO userDTO = service.findById(id);
+    @GetMapping(value = "/{login}")
+    ResponseEntity<?> findUsersByLogin(@PathVariable("login") String login){
+        List<UserDTO> userDTOs = service.findByCreatedBy(login);
 
-        return userDTO != null ? new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK) : new ResponseEntity<Object>(null, HttpStatus.BAD_REQUEST);
+        return userDTOs.size() != 0 ? new ResponseEntity<List<UserDTO>>(userDTOs, HttpStatus.OK) : new ResponseEntity<Object>(null, HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping(value = "/search/{fraze}")
+    ResponseEntity<?> findByFraze(@PathVariable("fraze") String fraze) {
+        List<UserDTO> userDTOs = service.findByFraze(fraze);
+
+        return userDTOs.size() != 0 ? new ResponseEntity<List<UserDTO>>(userDTOs, HttpStatus.OK) : new ResponseEntity<Object>(null, HttpStatus.NO_CONTENT);
     }
 
     @PostMapping(value = "")
