@@ -21,5 +21,7 @@ public interface HistoryRepository extends PagingAndSortingRepository<HistoryIte
                                          @Param("startDate")Date startDate,
                                          @Param("endDate")Date endDate);
 
+    HistoryItem findTop1ByWasSend(boolean wasSend);
+
     List<HistoryItem> findByWasSend(boolean wasSend);
 }

@@ -1,11 +1,9 @@
 package pl.pielizg.messageExchanger.model.dao;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Pielizg on 2017-09-19.
@@ -28,12 +26,24 @@ public class HistoryItem {
     @NotNull
     private boolean wasSend;
 
+    @OneToMany(mappedBy = "historyItem")
+    private List<Unsend> unsends;
+
     public HistoryItem(String origin, String destination, String message, Date date, boolean wasSend) {
         this.origin = origin;
         this.destination = destination;
         this.message = message;
         this.date = date;
         this.wasSend = wasSend;
+    }
+
+    public HistoryItem(String origin, String destination, String message, Date date, boolean wasSend, List<Unsend> unsends) {
+        this.origin = origin;
+        this.destination = destination;
+        this.date = date;
+        this.message = message;
+        this.wasSend = wasSend;
+        this.unsends = unsends;
     }
 
     public HistoryItem() {
@@ -85,5 +95,13 @@ public class HistoryItem {
 
     public void setWasSend(boolean wasSend) {
         this.wasSend = wasSend;
+    }
+
+    public List<Unsend> getUnsends() {
+        return unsends;
+    }
+
+    public void setUnsends(List<Unsend> unsends) {
+        this.unsends = unsends;
     }
 }

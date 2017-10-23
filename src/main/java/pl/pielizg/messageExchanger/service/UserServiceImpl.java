@@ -60,7 +60,6 @@ public class UserServiceImpl implements UserService {
         return user != null ? mapper.map(user) : null;
     }
 
-
     @Override
     @Transactional
     public void deleteUser(Long phoneNumber) {
@@ -69,7 +68,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String getPassword(String login) {
-
         User user =  repository.findByLogin(login);
 
         return user != null ? user.getPassword() : "###";
@@ -98,5 +96,4 @@ public class UserServiceImpl implements UserService {
 
         return userDTOs;
     }
-
 }

@@ -5,9 +5,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.pielizg.messageExchanger.Repository.HistoryRepository;
+import pl.pielizg.messageExchanger.Repository.UnsendRepository;
 import pl.pielizg.messageExchanger.map.Mapper;
 import pl.pielizg.messageExchanger.model.dao.HistoryItem;
+import pl.pielizg.messageExchanger.model.dao.Unsend;
 import pl.pielizg.messageExchanger.model.dto.HistoryItemDTO;
 import pl.pielizg.messageExchanger.model.dto.IntervalDTO;
 
@@ -15,6 +18,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Pielizg on 2017-09-19.
@@ -24,6 +28,8 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Autowired
     private HistoryRepository repository;
+    @Autowired
+    private UnsendRepository unsendRepository;
     @Autowired
     private Mapper mapper;
 
@@ -38,9 +44,15 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
-    public HistoryItemDTO newHistoryItem(String originLogin, String destinationLogin, String text, boolean wasSend) {
+    @Transactional
+    public HistoryItemDTO newHistoryItem(String originLogin, String destinationLogin, String text, boolean wasSend, List<Unsend> unsends) {
         Date now = new Date();
-        HistoryItem historyItem = new HistoryItem(originLogin, destinationLogin, text, now, wasSend);
+        HistoryItem historyItem = new HistoryItem(originLogin, destinationLogin, text, now, wasSend, unsends);
+
+        for(Unsend u: unsends){
+            u.setHistoryItem(historyItem);
+        }
+        unsendRepository.save(unsends);
 
         int id = repository.save(historyItem).getId();
         historyItem = repository.findOne(id);

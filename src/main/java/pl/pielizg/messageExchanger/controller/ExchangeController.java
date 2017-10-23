@@ -24,13 +24,13 @@ public class ExchangeController {
     ResponseEntity<Container> getText(@RequestBody String text){
         Container container = service.setMessage(text);
 
-        return container.getPhoneNumbers()!=null ? new ResponseEntity<Container>(container, HttpStatus.OK) : new ResponseEntity<Container>(container, HttpStatus.BAD_REQUEST);
+        return container.getPhoneNumbers()!=null ? new ResponseEntity<Container>(HttpStatus.OK) : new ResponseEntity<Container>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping(value = "")
     ResponseEntity<?> getUnsendMessages(){
-        List<Container> containers = service.getUnsendMessages();
+        Container container = service.getUnsend();
 
-        return !containers.isEmpty() ? new ResponseEntity<List<Container>>(containers, HttpStatus.OK) : new ResponseEntity<Object>(null, HttpStatus.NO_CONTENT);
+        return container != null ? new ResponseEntity<Container>(container, HttpStatus.OK) : new ResponseEntity<Object>(null, HttpStatus.NO_CONTENT);
     }
 }

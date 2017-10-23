@@ -10,6 +10,13 @@ import java.util.List;
 public class Container {
     private List<Long> phoneNumbers;
     private String message;
+    private boolean more;
+
+    public Container(List<Long> phoneNumbers, String message, boolean more) {
+        this.phoneNumbers = phoneNumbers;
+        this.message = message;
+        this.more = more;
+    }
 
     public Container(List<Long> phoneNumbers, String message) {
         this.phoneNumbers = phoneNumbers;
@@ -37,5 +44,13 @@ public class Container {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public boolean isMore() {
+        return more;
+    }
+
+    public void setMore(boolean more) {
+        this.more = more;
     }
 }

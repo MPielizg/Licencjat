@@ -11,4 +11,6 @@ public interface ExchangeService {
     Container setMessage(String message);
 
     List<Container> getUnsendMessages();
+
+    Container getUnsend();
 }
